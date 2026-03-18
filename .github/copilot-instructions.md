@@ -60,8 +60,8 @@ Use consistent parameter naming across domains:
 - Async handlers required: all endpoint definitions use `async def`
 - Tags for OpenAPI docs: tag each router (e.g., `tags=['playgroups']`)
 - Request/response validation: planning to add Pydantic models (not yet implemented)
-- **Testing**: Run `pytest tests/ -v` to execute the test suite (19 tests covering all four routers)
-- **Test Structure**: Tests use FastAPI's `TestClient` with fixtures in `tests/conftest.py`
+- **Testing**: Run `pytest app/tests/ -v` to execute the test suite (19 tests covering all four routers)
+- **Test Structure**: Tests use FastAPI's `TestClient` with fixtures in `app/tests/conftest.py`
 
 ## What's Not Yet Implemented
 - Database connectivity/ORM (currently mock responses)
