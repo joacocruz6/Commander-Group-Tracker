@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from uuid import uuid4
+from uuid import uuid4, UUID
 
 
 router = APIRouter(prefix="/games", tags=["games"])
@@ -15,20 +15,20 @@ async def create_game():
     return response
 
 @router.get("/{game_id}")
-async def get_game(game_id: str):
+async def get_game(game_id: UUID):
     response = {
         "data": {
-            "id": game_id,
+            "id": str(game_id),
             "name": f"Game {game_id}"
         }
     }
     return response
 
 @router.put("/{game_id}")
-async def update_game(game_id: str):
+async def update_game(game_id: UUID):
     response = {
         "data": {
-            "id": game_id,
+            "id": str(game_id),
             "message": f"Game {game_id} updated successfully"
         }
     }

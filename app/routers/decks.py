@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 from pydantic import BaseModel, HttpUrl
-from uuid import uuid4
+from uuid import uuid4, UUID
 router = APIRouter(prefix="/decks", tags=["decks"])
 
 class Deck(BaseModel):
@@ -22,10 +22,10 @@ async def create_deck(deck: Deck):
     return response
 
 @router.get("/{deck_id}")
-async def get_deck(deck_id: str):
+async def get_deck(deck_id: UUID):
     response = {
         "data": {
-            "id": deck_id,
+            "id": str(deck_id),
             "name": f"Deck {deck_id}",
             "commander": f"Commander for Deck {deck_id}",
             "deck_list_url": f"https://example.com/decks/{deck_id}/list"
@@ -34,10 +34,10 @@ async def get_deck(deck_id: str):
     return response
 
 @router.put("/{deck_id}")
-async def update_deck(deck_id: str, deck: Deck):
+async def update_deck(deck_id: UUID, deck: Deck):
     response = {
         "data": {
-            "id": deck_id,
+            "id": str(deck_id),
             "name": deck.name,
             "commander": deck.commander,
             "deck_list_url": deck.deck_list_url
@@ -46,10 +46,10 @@ async def update_deck(deck_id: str, deck: Deck):
     return response
 
 @router.delete("/{deck_id}")
-async def delete_deck(deck_id: str):
+async def delete_deck(deck_id: UUID):
     response = {
         "data": {
-            "id": deck_id,
+            "id": str(deck_id),
             "message": f"Deck {deck_id} deleted successfully"
         }
     }

@@ -1,6 +1,6 @@
 from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from uuid import uuid4
+from uuid import uuid4, UUID
 
 router = APIRouter(prefix='/playgroups', tags=['playgroups'])
 
@@ -37,30 +37,30 @@ async def get_user_playgroup_participant():
     raise HTTPException(status_code=404)
 
 @router.get("/{playgroup_id}")
-async def get_playgroup_details(playgroup_id: str):
+async def get_playgroup_details(playgroup_id: UUID):
     response = {
         "data": {
-            "id": playgroup_id,
+            "id": str(playgroup_id),
             "name": f"Playgroup {playgroup_id}"
         }
     }
     return response
 
 @router.put("/{playgroup_id}")
-async def update_playgroup(playgroup_id: str, playgroup: Playgroup):
+async def update_playgroup(playgroup_id: UUID, playgroup: Playgroup):
     response = {
         "data": {
-            "id": playgroup_id,
+            "id": str(playgroup_id),
             "name": playgroup.name
         }
     }
     return response
 
 @router.delete("/{playgroup_id}")
-async def delete_playgroup(playgroup_id: str):
+async def delete_playgroup(playgroup_id: UUID):
     response = {
         "data": {
-            "id": playgroup_id,
+            "id": str(playgroup_id),
             "message": f"Playgroup {playgroup_id} deleted successfully"
         }
     }

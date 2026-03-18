@@ -1,5 +1,5 @@
 from fastapi import APIRouter
-from uuid import uuid4
+from uuid import uuid4, UUID
 from pydantic import BaseModel, EmailStr
 router = APIRouter(prefix='/persons', tags=['persons'])
 
@@ -22,10 +22,10 @@ async def create_new_person(person: Person):
     return response
 
 @router.get("/{person_id}")
-async def get_person_details(person_id: str):
+async def get_person_details(person_id: UUID):
     response = {
         "data": {
-            "id": person_id,
+            "id": str(person_id),
             "name": f"Person {person_id}",
             "email": f"",
             "decks": []
@@ -34,10 +34,10 @@ async def get_person_details(person_id: str):
     return response
 
 @router.put("/{person_id}")
-async def put_person(person_id: str, person: Person):
+async def put_person(person_id: UUID, person: Person):
     response = {
         "data": {
-            "id": person_id,
+            "id": str(person_id),
             "name": person.name,
             "email": person.email
         }
