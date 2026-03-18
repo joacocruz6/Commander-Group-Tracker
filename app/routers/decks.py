@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-router = app.router(prefix="/decks", tags=["decks"])
+router = APIRouter(prefix="/decks", tags=["decks"])
 
 @router.post("/{person_id}")
 async def create_deck(person_id: str):

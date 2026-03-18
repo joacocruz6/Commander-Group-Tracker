@@ -1,6 +1,6 @@
 from fastapi import APIRouter
 
-router = APIRouter(prefix='/persons', tag=['persons'])
+router = APIRouter(prefix='/persons', tags=['persons'])
 
 @router.post("/")
 async def create_new_person():

@@ -1,4 +1,4 @@
-from fastapi import APIRouter, HttpException
+from fastapi import APIRouter, HTTPException
 
 
 router = APIRouter(prefix='/playgroups', tags=['playgroups'])
@@ -7,15 +7,6 @@ router = APIRouter(prefix='/playgroups', tags=['playgroups'])
 async def create_new_playgroup():
     response = {
         "data": "Hello World!"
-    }
-    return response
-
-@router.get("/{playgroup_id}")
-async def get_playgroup_details(playgroup_id: str):
-    response = {
-        "data": {
-            "id": playgroup_id
-        }
     }
     return response
 
@@ -35,7 +26,16 @@ async def get_user_created_playgroups():
 
 @router.get("/participant")
 async def get_user_playgroup_participant():
-    raise HttpException(status_code=404)
+    raise HTTPException(status_code=404)
+
+@router.get("/{playgroup_id}")
+async def get_playgroup_details(playgroup_id: str):
+    response = {
+        "data": {
+            "id": playgroup_id
+        }
+    }
+    return response
 
 @router.put("/{playgroup_id}")
 async def update_playgroup(playgroup_id: str):
