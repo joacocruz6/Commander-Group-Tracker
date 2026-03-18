@@ -42,9 +42,12 @@ response = {"data": {"items": [...]}}  # Collections
 Keep this consistent across all new endpoints.
 
 ## Critical Issues & Patterns
-1. **Router Import Bug**: `app/routers/decks.py` line 3 has `router = app.router(...)` - should be `APIRouter(...)`
-2. **Endpoint Path Conflicts**: `games.py` has overlapping GET endpoints - clarify URL structure
-3. **Empty Dependencies**: `app/dependencies.py` exists but is unused; use this for shared utilities or auth helpers as the project grows
+1. **Endpoint Path Conflicts**: 
+   - `decks.py` has overlapping GET endpoints: both `list_person_decks()` and `get_deck()` use `GET /{id}`
+   - `games.py` has overlapping GET endpoints: both `get_game()` and `list_playgroup_games()` use `GET /{id}`
+   - **Suggested fix**: Refactor to use `/persons/{person_id}/decks` and `/playgroup/{playgroup_id}/games` for list operations
+2. **Router Route Ordering**: FastAPI matches routes in definition order. Static routes (like `/admin`, `/participant`) must be defined before dynamic routes (`/{id}`) to work correctly. Playgroup router follows this pattern (fixed).
+3. **Empty Dependencies**: `app/dependencies.py` exists but is unused; use this for shared utilities, auth helpers, or database session management as the project grows
 
 ## ID Parameter Conventions
 Use consistent parameter naming across domains:
@@ -57,16 +60,18 @@ Use consistent parameter naming across domains:
 - Async handlers required: all endpoint definitions use `async def`
 - Tags for OpenAPI docs: tag each router (e.g., `tags=['playgroups']`)
 - Request/response validation: planning to add Pydantic models (not yet implemented)
+- **Testing**: Run `pytest tests/ -v` to execute the test suite (19 tests covering all four routers)
+- **Test Structure**: Tests use FastAPI's `TestClient` with fixtures in `tests/conftest.py`
 
 ## What's Not Yet Implemented
 - Database connectivity/ORM (currently mock responses)
 - Authentication/authorization
-- Pydantic request/response schemas
+- Pydantic request/response schemas (input validation)
 - Error handling beyond basic HTTP exceptions
-- Input validation
-- Router registration in main.py
+- Comprehensive error messages and validation errors
 
-When adding features, prioritize:
-1. Fix router registration in main.py
+Priority roadmap when implementing:
+1. Refactor router paths to resolve GET endpoint conflicts (see Critical Issues section)
 2. Add Pydantic models for request/response validation
-3. Implement database layer (suggested pattern: models in `app/models/`, queries in routers or separate data layer)
+3. Implement database layer (suggested structure: `app/models/` for ORM models, `app/schemas/` for Pydantic, queries in routers or separate data layer)
+4. Add authentication middleware
