@@ -1,4 +1,5 @@
 from fastapi import APIRouter
+from uuid import uuid4
 
 
 router = APIRouter(prefix="/games", tags=["games"])
