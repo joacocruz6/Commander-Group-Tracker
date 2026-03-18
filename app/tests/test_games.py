@@ -1,6 +1,6 @@
 import pytest
 from fastapi.testclient import TestClient
-
+from uuid import uuid4
 
 class TestGamesRouter:
     """Test suite for games endpoints."""
@@ -17,7 +17,7 @@ class TestGamesRouter:
 
     def test_get_game_details(self, client):
         """Test retrieving details of a specific game."""
-        game_id = "game-456"
+        game_id = str(uuid4())
         response = client.get(f"/games/{game_id}")
         assert response.status_code == 200
         data = response.json()
@@ -27,7 +27,7 @@ class TestGamesRouter:
 
     def test_update_game(self, client):
         """Test updating an existing game."""
-        game_id = "game-789"
+        game_id = str(uuid4())
         response = client.put(f"/games/{game_id}")
         assert response.status_code == 200
         data = response.json()
