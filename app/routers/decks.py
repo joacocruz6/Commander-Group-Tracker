@@ -1,30 +1,13 @@
 from fastapi import APIRouter
-
+from uuid import uuid4
 router = APIRouter(prefix="/decks", tags=["decks"])
 
-@router.post("/{person_id}")
-async def create_deck(person_id: str):
+@router.post("/")
+async def create_deck():
+    person_id = str(uuid4())
     response = {
         "data": {
             "person_id": person_id
-        }
-    }
-    return response
-
-@router.get("/{person_id}")
-async def list_person_decks(person_id: str):
-    response = {
-        "data": {
-            "decks": [
-                {
-                    "id": "deck1",
-                    "name": "Deck 1"
-                },
-                {
-                    "id": "deck2",
-                    "name": "Deck 2"
-                }
-            ]
         }
     }
     return response
